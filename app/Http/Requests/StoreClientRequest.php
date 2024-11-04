@@ -18,7 +18,7 @@ class StoreClientRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:clients,email',
             'birthday' => 'required|date',
-            'sex' => 'required|in:Male,Female,other',
+            'sex' => 'required|in:Male,Female',
         ];
     }
 }

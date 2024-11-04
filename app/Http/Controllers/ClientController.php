@@ -2,32 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Client; // Ensure this matches your model
+use App\Http\Requests\StoreClientRequest;
+use App\Models\Client;
+use Illuminate\Http\JsonResponse;
 
 class ClientController extends Controller
 {
-    public function store(Request $request)
+    /**
+     * Store a newly created client in the database.
+     */
+    public function store(StoreClientRequest $request): JsonResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:clients,email',
-            'birthday' => 'required|date',
-            'sex' => 'required|in:male,female',
-        ]);
+        // Retrieve the validated input data
+        $validated = $request->validated();
 
-        Client::create($request->all());
+        // Create the client
+        $client = client::create($validated);
 
-        return response()->json(['message' => 'Client data saved successfully.'], 201);
-    }
-
-    // View data
-    public function index()
-    {
-        $clients = Client::all();
-        return response()->json($clients);
+        return response()->json([
+            'message' => 'Client created successfully!',
+            'client' => $client
+        ], 201);
     }
 }
-
-
-

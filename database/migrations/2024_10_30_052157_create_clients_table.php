@@ -16,12 +16,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->date('birthday');
-            $table->enum('sex', ['male', 'female', 'other']);
+            $table->enum('sex', ['male', 'female']);
             $table->timestamps();
         });
     }
 
-    
+
     public function down(): void
     {
         Schema::dropIfExists('clients');

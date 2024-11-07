@@ -9,19 +9,24 @@ use Illuminate\Http\JsonResponse;
 class ClientController extends Controller
 {
     /**
-     * Store a newly created client in the database.
+     * Store the clients.
+     *
+     * @param  StoreClientRequest  $request
+     * @return JsonResponse
      */
     public function store(StoreClientRequest $request): JsonResponse
     {
-        // Retrieve the validated input data
-        $validated = $request->validated();
+        $clients = $request->input('clients');
 
-        // Create the client
-        $client = client::create($validated);
+        $createdClients = [];
+
+        foreach ($clients as $clientData) {
+            $createdClients[] = Client::create($clientData);
+        }
 
         return response()->json([
-            'message' => 'Client created successfully!',
-            'client' => $client
+            'message' => 'Clients created successfully!',
+            'clients' => $createdClients,
         ], 201);
+        }
     }
-}
